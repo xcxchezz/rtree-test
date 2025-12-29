@@ -14,29 +14,49 @@
 # Клонирование репозитория
 git clone https://github.com/xcxchezz/rtree-test.git
 cd rtree-test
+```
 
-# Компиляция и запуск демонстрации
+### Для Java 8 (упрощенная реализация)
+```bash
+# Компиляция
 javac -cp "." -source 1.8 -target 1.8 -encoding UTF-8 src/main/java/rtree/*.java -d target/classes
+
+# Запуск упрощенной демонстрации
 java -cp target/classes rtree.MainDemo
+```
+
+### Для Java 17+ (оригинальные классы из jar)
+```bash
+# Компиляция
+javac -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;." src/main/java/rtree/JarDemo.java -d target/classes
+
+# Запуск с использованием оригинальных классов
+java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 ```
 
 ## 📋 Системные требования
 
-- **Java**: 8 или выше
+- **Java**: 8 или выше (рекомендуется Java 17+ для полной функциональности)
 - **Операционная система**: Windows, Linux, macOS
 - **Память**: Минимум 64 MB RAM
+
+### ⚠️ Важное замечание по версиям Java:
+
+- **Java 8-16**: Доступна только упрощенная реализация (`MainDemo.java`)
+- **Java 17+**: Доступны обе реализации (упрощенная + оригинальные классы из jar)
 
 ## Структура проекта
 
 ```
 ├── lib/rtree-lib-1.0-SNAPSHOT.jar     # Оригинальная библиотека R-Tree (Java 17)
 ├── src/main/java/rtree/
-│   ├── MainDemo.java                 # Основная демонстрационная программа (упрощенная реализация)
+│   ├── JarDemo.java                  # Демонстрация с оригинальными классами из jar (Java 17+)
+│   ├── MainDemo.java                 # Основная демонстрационная программа (упрощенная реализация, Java 8+)
+│   ├── ReflectionDemo.java           # Демонстрация с использованием рефлексии
 │   ├── SimpleRTree.java              # Упрощенная реализация R-Tree
 │   ├── SimpleRectangle.java          # Класс прямоугольника
 │   ├── SimpleEntry.java              # Класс записи
-│   ├── SimpleNode.java               # Класс узла дерева
-│   └── ReflectionDemo.java           # Демонстрация с использованием рефлексии
+│   └── SimpleNode.java               # Класс узла дерева
 ├── pom.xml                           # Конфигурация Maven
 ├── README.md                         # Эта документация
 └── README_RTree_Demo.md             # Детальная документация по демонстрации
@@ -125,33 +145,38 @@ java -cp target/classes rtree.MainDemo
 
 ## Как запустить
 
-### Системные требования
-- Java 8+ (текущая демонстрация совместима с Java 8)
-- Maven (опционально)
+### Запуск демонстраций
 
-### Компиляция и запуск упрощенной реализации
-
+#### 1. Упрощенная реализация (Java 8+)
 ```bash
 # Переход в директорию проекта
 cd C:\Users\opapc\IdeaProjects\test11
 
-# Компиляция всех классов
+# Компиляция всех классов упрощенной реализации
 javac -cp "." -source 1.8 -target 1.8 -encoding UTF-8 src/main/java/rtree/*.java -d target/classes
 
 # Запуск основной демонстрации
 java -cp target/classes rtree.MainDemo
 ```
 
-### Альтернативные варианты запуска
-
+#### 2. Оригинальные классы из jar (Java 17+)
 ```bash
-# Запуск с использованием Maven (если установлен)
+# Компиляция только JarDemo.java
+javac -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;." src/main/java/rtree/JarDemo.java -d target/classes
+
+# Запуск с оригинальными классами
+java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
+```
+
+#### 3. Maven (если установлен)
+```bash
+# Для Java 8 (упрощенная реализация)
 mvn compile
 java -cp "target/classes" rtree.MainDemo
 
-# Запуск демонстрации с рефлексией (для работы с оригинальной библиотекой)
-# Примечание: требует Java 17+
-java -cp target/classes rtree.ReflectionDemo
+# Для Java 17+ (оригинальные классы)
+mvn compile
+java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 ```
 
 ### Проверка работы
