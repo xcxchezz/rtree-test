@@ -1,12 +1,12 @@
 # R-Tree Demonstration Project 🌳
 
-[![Java Version](https://img.shields.io/badge/Java-8+-blue.svg)](https://openjdk.java.net/)
+[![Java Version](https://img.shields.io/badge/Java-17+-blue.svg)](https://openjdk.java.net/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-black.svg)](https://github.com/xcxchezz/rtree-test)
 
 ## 📋 О репозитории
 
-Этот репозиторий содержит демонстрацию работы с R-Tree - структурой данных для эффективного пространственного индексирования в двумерном пространстве. Проект включает как оригинальную библиотеку R-Tree (скомпилированную для Java 17), так и упрощенную реализацию, совместимую с Java 8.
+Этот репозиторий содержит демонстрацию работы с оригинальной библиотекой R-Tree - структурой данных для эффективного пространственного индексирования в двумерном пространстве. Проект использует классы из `rtree-lib-1.0-SNAPSHOT.jar` напрямую.
 
 ## 🚀 Быстрый старт
 
@@ -14,49 +14,26 @@
 # Клонирование репозитория
 git clone https://github.com/xcxchezz/rtree-test.git
 cd rtree-test
-```
 
-### Для Java 8 (упрощенная реализация)
-```bash
-# Компиляция
-javac -cp "." -source 1.8 -target 1.8 -encoding UTF-8 src/main/java/rtree/*.java -d target/classes
-
-# Запуск упрощенной демонстрации
-java -cp target/classes rtree.MainDemo
-```
-
-### Для Java 17+ (оригинальные классы из jar)
-```bash
-# Компиляция
+# Компиляция демонстрации
 javac -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;." src/main/java/rtree/JarDemo.java -d target/classes
 
-# Запуск с использованием оригинальных классов
+# Запуск с использованием оригинальных классов из jar
 java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 ```
 
 ## 📋 Системные требования
 
-- **Java**: 8 или выше (рекомендуется Java 17+ для полной функциональности)
+- **Java**: 17 или выше (необходима для работы с оригинальной библиотекой)
 - **Операционная система**: Windows, Linux, macOS
 - **Память**: Минимум 64 MB RAM
-
-### ⚠️ Важное замечание по версиям Java:
-
-- **Java 8-16**: Доступна только упрощенная реализация (`MainDemo.java`)
-- **Java 17+**: Доступны обе реализации (упрощенная + оригинальные классы из jar)
 
 ## Структура проекта
 
 ```
-├── lib/rtree-lib-1.0-SNAPSHOT.jar     # Оригинальная библиотека R-Tree (Java 17)
+├── lib/rtree-lib-1.0-SNAPSHOT.jar     # Оригинальная библиотека R-Tree
 ├── src/main/java/rtree/
-│   ├── JarDemo.java                  # Демонстрация с оригинальными классами из jar (Java 17+)
-│   ├── MainDemo.java                 # Основная демонстрационная программа (упрощенная реализация, Java 8+)
-│   ├── ReflectionDemo.java           # Демонстрация с использованием рефлексии
-│   ├── SimpleRTree.java              # Упрощенная реализация R-Tree
-│   ├── SimpleRectangle.java          # Класс прямоугольника
-│   ├── SimpleEntry.java              # Класс записи
-│   └── SimpleNode.java               # Класс узла дерева
+│   └── JarDemo.java                  # Демонстрация работы с оригинальными классами
 ├── pom.xml                           # Конфигурация Maven
 ├── README.md                         # Эта документация
 └── README_RTree_Demo.md             # Детальная документация по демонстрации
@@ -76,20 +53,7 @@ java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 - `void insert(Rectangle rect, T value)` - вставляет элемент
 - `List<T> search(Rectangle query)` - ищет элементы в заданной области
 
-### Классы упрощенной реализации (Java 8 совместимые)
-
-#### 1. `rtree.SimpleRTree<T>`
-Упрощенная версия R-Tree для демонстрации основных принципов.
-
-**Конструктор:**
-- `SimpleRTree(int maxEntries)` - создает дерево с максимальной вместимостью узла
-
-**Методы:**
-- `void insert(SimpleRectangle rect, T value)` - вставляет элемент
-- `List<T> search(SimpleRectangle query)` - ищет элементы в заданной области
-- `void printTree()` - выводит структуру дерева
-
-#### 2. `rtree.Rectangle` (оригинальная) / `rtree.SimpleRectangle` (упрощенная)
+#### 2. `rtree.Rectangle`
 Представляет прямоугольную область в 2D пространстве.
 
 **Поля:**
@@ -102,14 +66,14 @@ java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 - `double area()` - вычисление площади
 - `static Rectangle combine(Rectangle a, Rectangle b)` - объединение прямоугольников
 
-#### 3. `rtree.Entry<T>` (оригинальная) / `rtree.SimpleEntry<T>` (упрощенная)
+#### 3. `rtree.Entry<T>`
 Элемент дерева, содержащий ограничивающий прямоугольник и значение.
 
 **Поля:**
 - `Rectangle mbr` - ограничивающий прямоугольник
 - `T value` - хранимое значение
 
-#### 4. `rtree.Node<T>` (оригинальная) / `rtree.SimpleNode<T>` (упрощенная)
+#### 4. `rtree.Node<T>`
 Внутренний узел дерева (используется реализацией).
 
 **Поля:**
@@ -145,37 +109,26 @@ java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 
 ## Как запустить
 
-### Запуск демонстраций
+### Компиляция и запуск
 
-#### 1. Упрощенная реализация (Java 8+)
 ```bash
 # Переход в директорию проекта
 cd C:\Users\opapc\IdeaProjects\test11
 
-# Компиляция всех классов упрощенной реализации
-javac -cp "." -source 1.8 -target 1.8 -encoding UTF-8 src/main/java/rtree/*.java -d target/classes
-
-# Запуск основной демонстрации
-java -cp target/classes rtree.MainDemo
-```
-
-#### 2. Оригинальные классы из jar (Java 17+)
-```bash
-# Компиляция только JarDemo.java
+# Компиляция демонстрации
 javac -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;." src/main/java/rtree/JarDemo.java -d target/classes
 
-# Запуск с оригинальными классами
+# Запуск с использованием оригинальных классов из jar
 java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 ```
 
-#### 3. Maven (если установлен)
-```bash
-# Для Java 8 (упрощенная реализация)
-mvn compile
-java -cp "target/classes" rtree.MainDemo
+### С использованием Maven
 
-# Для Java 17+ (оригинальные классы)
+```bash
+# Компиляция
 mvn compile
+
+# Запуск
 java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 ```
 
@@ -189,47 +142,49 @@ java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 
 ## Примеры использования
 
-### Базовый пример с упрощенной реализацией
+### Базовый пример
 
 ```java
+import rtree.RTree;
+import rtree.Rectangle;
+import java.util.List;
+
 // Создание R-Tree
-SimpleRTree<String> tree = new SimpleRTree<>(4);
+RTree<String> tree = new RTree<>(4);
 
 // Вставка элементов
-SimpleRectangle rect = new SimpleRectangle(0, 0, 10, 10);
+Rectangle rect = new Rectangle(0, 0, 10, 10);
 tree.insert(rect, "Мой объект");
 
-// Поиск
-List<String> results = tree.search(new SimpleRectangle(5, 5, 15, 15));
-
-// Вывод структуры дерева
-tree.printTree();
+// Поиск элементов в области
+List<String> results = tree.search(new Rectangle(5, 5, 15, 15));
 ```
 
 ### Географическая система
 
 ```java
-SimpleRTree<String> landmarks = new SimpleRTree<>(4);
+RTree<String> landmarks = new RTree<>(4);
 
 // Добавление достопримечательностей
-landmarks.insert(new SimpleRectangle(55.7558, 37.6176, 55.7559, 37.6177), "Красная площадь");
-landmarks.insert(new SimpleRectangle(55.7520, 37.6175, 55.7521, 37.6176), "ГУМ");
+landmarks.insert(new Rectangle(55.7558, 37.6176, 55.7559, 37.6177), "Красная площадь");
+landmarks.insert(new Rectangle(55.7520, 37.6175, 55.7521, 37.6176), "ГУМ");
 
 // Поиск в районе
-List<String> found = landmarks.search(new SimpleRectangle(55.75, 37.61, 55.76, 37.62));
+List<String> found = landmarks.search(new Rectangle(55.75, 37.61, 55.76, 37.62));
 ```
 
-### Работа с оригинальной библиотекой (Java 17+)
+### Система недвижимости
 
 ```java
-// Требует Java 17+ и библиотеку rtree-lib-1.0-SNAPSHOT.jar
-import rtree.RTree;
-import rtree.Rectangle;
+RTree<String> properties = new RTree<>(4);
 
-RTree<String> tree = new RTree<>(4);
-Rectangle rect = new Rectangle(0, 0, 10, 10);
-tree.insert(rect, "Мой объект");
-List<String> results = tree.search(new Rectangle(5, 5, 15, 15));
+// Добавление объектов недвижимости
+properties.insert(new Rectangle(10, 10, 20, 20), "Квартира 1");
+properties.insert(new Rectangle(30, 30, 40, 40), "Офис 1");
+properties.insert(new Rectangle(50, 50, 60, 60), "Магазин 1");
+
+// Поиск в районе
+List<String> nearby = properties.search(new Rectangle(25, 25, 45, 45));
 ```
 
 ## Алгоритм работы R-Tree
@@ -274,25 +229,23 @@ List<String> results = tree.search(new Rectangle(5, 5, 15, 15));
 
 ## Тестирование
 
-Проект включает модульные тесты в `RTreeTest.java`, которые проверяют:
-- Корректность вставки и поиска
-- Обработку пересечений прямоугольников
-- Поведение при пустом дереве
-- Разделение узлов при переполнении
+Демонстрационная программа `JarDemo.java` включает комплексные тесты основных функций:
+- Корректность вставки элементов с пространственными координатами
+- Обработку пересечений прямоугольников при поиске
+- Поведение при поиске в пустых областях
+- Разделение узлов при переполнении (автоматическая балансировка дерева)
 
-## Особенности текущей реализации
+## Особенности реализации
 
-### Упрощенная реализация (рекомендуется для запуска)
-- Полностью совместима с Java 8
-- Демонстрирует основные принципы работы R-Tree
-- Включает визуализацию структуры дерева
-- Поддерживает вставку и поиск
+Проект использует оригинальную библиотеку R-Tree из `rtree-lib-1.0-SNAPSHOT.jar`:
+- Полная реализация алгоритма R-Tree по Guttman (1984)
+- Автоматическое разделение и балансировка узлов
+- Эффективный пространственный поиск
+- Поддержка произвольных типов данных через generics
 
-### Оригинальная библиотека
-- Более полная и оптимизированная реализация
-- Требует Java 17+
-- Скомпилирована в `rtree-lib-1.0-SNAPSHOT.jar`
-- Может быть использована через рефлексию (ReflectionDemo.java)
+## Заключение
+
+R-Tree является эффективной структурой данных для пространственного индексирования, особенно полезной в приложениях, требующих быстрого поиска объектов в двумерном пространстве. Данная демонстрация показывает работу с оригинальной библиотекой R-Tree, позволяя изучить практическое применение этой структуры данных.
 
 ## 🤝 Как внести вклад
 
