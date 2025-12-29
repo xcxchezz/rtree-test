@@ -1,7 +1,5 @@
 package rtree;
 
-import rtree.RTree;
-import rtree.Rectangle;
 import java.util.List;
 
 /**
