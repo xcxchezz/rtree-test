@@ -1,89 +1,43 @@
-# R-Tree Demonstration Project 🌳
-
-[![Java Version](https://img.shields.io/badge/Java-17+-blue.svg)](https://openjdk.java.net/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-black.svg)](https://github.com/xcxchezz/rtree-test)
-
-## 📋 О репозитории
+# R-Tree Demonstration Project
 
 Этот репозиторий содержит демонстрацию работы с оригинальной библиотекой R-Tree - структурой данных для эффективного пространственного индексирования в двумерном пространстве. Проект использует классы из `rtree-lib-1.0-SNAPSHOT.jar` напрямую.
 
-## 🚀 Быстрый старт
+## Системные требования
+
+- Java 17 или выше
+- Windows, Linux или macOS
+
+## Запуск программы
 
 ```bash
 # Клонирование репозитория
 git clone https://github.com/xcxchezz/rtree-test.git
 cd rtree-test
 
-# Компиляция демонстрации
+# Компиляция
 javac -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;." src/main/java/rtree/JarDemo.java -d target/classes
 
-# Запуск с использованием оригинальных классов из jar
+# Запуск
 java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 ```
-
-## 📋 Системные требования
-
-- **Java**: 17 или выше (необходима для работы с оригинальной библиотекой)
-- **Операционная система**: Windows, Linux, macOS
-- **Память**: Минимум 64 MB RAM
 
 ## Структура проекта
 
 ```
-├── lib/rtree-lib-1.0-SNAPSHOT.jar     # Оригинальная библиотека R-Tree
-├── src/main/java/rtree/
-│   └── JarDemo.java                  # Демонстрация работы с оригинальными классами
+├── lib/rtree-lib-1.0-SNAPSHOT.jar     # Библиотека R-Tree
+├── src/main/java/rtree/JarDemo.java  # Демонстрационная программа
 ├── pom.xml                           # Конфигурация Maven
-├── README.md                         # Эта документация
-└── README_RTree_Demo.md             # Детальная документация по демонстрации
+└── README.md                         # Документация
 ```
 
 ## Архитектура R-Tree
 
-### Классы оригинальной библиотеки (rtree-lib-1.0-SNAPSHOT.jar)
+Программа использует классы из библиотеки `rtree-lib-1.0-SNAPSHOT.jar`:
 
-#### 1. `rtree.RTree<T>`
-Основной класс дерева R-Tree для пространственного индексирования.
-
-**Конструктор:**
-- `RTree(int maxEntries)` - создает дерево с максимальной вместимостью узла
-
-**Методы:**
-- `void insert(Rectangle rect, T value)` - вставляет элемент
-- `List<T> search(Rectangle query)` - ищет элементы в заданной области
-
-#### 2. `rtree.Rectangle`
-Представляет прямоугольную область в 2D пространстве.
-
-**Поля:**
-- `double x1, y1` - координаты левого нижнего угла
-- `double x2, y2` - координаты правого верхнего угла
-
-**Методы:**
-- `boolean intersects(Rectangle other)` - проверка пересечения
-- `boolean contains(Rectangle other)` - проверка вложенности
-- `double area()` - вычисление площади
-- `static Rectangle combine(Rectangle a, Rectangle b)` - объединение прямоугольников
-
-#### 3. `rtree.Entry<T>`
-Элемент дерева, содержащий ограничивающий прямоугольник и значение.
-
-**Поля:**
-- `Rectangle mbr` - ограничивающий прямоугольник
-- `T value` - хранимое значение
-
-#### 4. `rtree.Node<T>`
-Внутренний узел дерева (используется реализацией).
-
-**Поля:**
-- `boolean leaf` - является ли листом
-- `List<Entry<T>> entries` - элементы листового узла
-- `List<Node<T>> children` - дочерние узлы
-- `Rectangle mbr` - ограничивающий прямоугольник узла
-
-**Методы:**
-- `void updateMBR()` - пересчет ограничивающего прямоугольника
+- `RTree<T>` - основной класс дерева для пространственного индексирования
+- `Rectangle` - представляет прямоугольную область в 2D пространстве
+- `Entry<T>` - элемент дерева с ограничивающим прямоугольником
+- `Node<T>` - внутренний узел дерева
 
 ## Возможности демонстрации
 
@@ -140,51 +94,18 @@ java -cp "lib/rtree-lib-1.0-SNAPSHOT.jar;target/classes" rtree.JarDemo
 3. Результаты поиска в различных областях
 4. Статистику найденных объектов
 
-## Примеры использования
-
-### Базовый пример
+## Пример использования
 
 ```java
-import rtree.RTree;
-import rtree.Rectangle;
-import java.util.List;
-
 // Создание R-Tree
 RTree<String> tree = new RTree<>(4);
 
 // Вставка элементов
-Rectangle rect = new Rectangle(0, 0, 10, 10);
-tree.insert(rect, "Мой объект");
+tree.insert(new Rectangle(0, 0, 10, 10), "Объект 1");
+tree.insert(new Rectangle(5, 5, 15, 15), "Объект 2");
 
-// Поиск элементов в области
-List<String> results = tree.search(new Rectangle(5, 5, 15, 15));
-```
-
-### Географическая система
-
-```java
-RTree<String> landmarks = new RTree<>(4);
-
-// Добавление достопримечательностей
-landmarks.insert(new Rectangle(55.7558, 37.6176, 55.7559, 37.6177), "Красная площадь");
-landmarks.insert(new Rectangle(55.7520, 37.6175, 55.7521, 37.6176), "ГУМ");
-
-// Поиск в районе
-List<String> found = landmarks.search(new Rectangle(55.75, 37.61, 55.76, 37.62));
-```
-
-### Система недвижимости
-
-```java
-RTree<String> properties = new RTree<>(4);
-
-// Добавление объектов недвижимости
-properties.insert(new Rectangle(10, 10, 20, 20), "Квартира 1");
-properties.insert(new Rectangle(30, 30, 40, 40), "Офис 1");
-properties.insert(new Rectangle(50, 50, 60, 60), "Магазин 1");
-
-// Поиск в районе
-List<String> nearby = properties.search(new Rectangle(25, 25, 45, 45));
+// Поиск в области
+List<String> results = tree.search(new Rectangle(7, 7, 12, 12));
 ```
 
 ## Алгоритм работы R-Tree
@@ -227,95 +148,8 @@ List<String> nearby = properties.search(new Rectangle(25, 25, 45, 45));
 - **Пространственная сложность:** O(n)
 - **Минимальная заполненность узла:** обычно 40% (зависит от реализации)
 
-## Тестирование
+## О программе
 
-Демонстрационная программа `JarDemo.java` включает комплексные тесты основных функций:
-- Корректность вставки элементов с пространственными координатами
-- Обработку пересечений прямоугольников при поиске
-- Поведение при поиске в пустых областях
-- Разделение узлов при переполнении (автоматическая балансировка дерева)
+Программа демонстрирует работу структуры данных R-Tree для пространственного индексирования. R-Tree позволяет эффективно хранить и искать объекты в двумерном пространстве.
 
-## Особенности реализации
-
-Проект использует оригинальную библиотеку R-Tree из `rtree-lib-1.0-SNAPSHOT.jar`:
-- Полная реализация алгоритма R-Tree по Guttman (1984)
-- Автоматическое разделение и балансировка узлов
-- Эффективный пространственный поиск
-- Поддержка произвольных типов данных через generics
-
-## Заключение
-
-R-Tree является эффективной структурой данных для пространственного индексирования, особенно полезной в приложениях, требующих быстрого поиска объектов в двумерном пространстве. Данная демонстрация показывает работу с оригинальной библиотекой R-Tree, позволяя изучить практическое применение этой структуры данных.
-
-## 🤝 Как внести вклад
-
-Мы приветствуем вклад в развитие проекта! Вот как вы можете помочь:
-
-### 📝 Сообщение об ошибках
-Если вы нашли ошибку, пожалуйста, создайте [Issue](https://github.com/xcxchezz/rtree-test/issues) со следующими деталями:
-- Описание проблемы
-- Шаги для воспроизведения
-- Ожидаемое поведение
-- Фактическое поведение
-- Информация о вашей среде (Java версия, ОС)
-
-### 🚀 Предложения по улучшению
-Идеи по улучшению приветствуются! Создайте Issue с меткой `enhancement` или отправьте Pull Request.
-
-### 🔧 Разработка
-1. Форкните репозиторий
-2. Создайте feature ветку: `git checkout -b feature/amazing-feature`
-3. Внесите изменения
-4. Запустите тесты: `mvn test` (если применимо)
-5. Сделайте commit: `git commit -m 'Add amazing feature'`
-6. Push в ветку: `git push origin feature/amazing-feature`
-7. Создайте Pull Request
-
-### 📋 Стандарты кода
-- Используйте Java naming conventions
-- Добавляйте комментарии к сложным алгоритмам
-- Пишите понятные commit сообщения
-- Обновляйте документацию при внесении изменений
-
-## 📄 Лицензия
-
-Этот проект распространяется под лицензией MIT. Подробности смотрите в файле [LICENSE](LICENSE).
-
-```
-MIT License
-
-Copyright (c) 2025 xcxchezz
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-```
-
-## 📞 Контакты
-
-- **Автор**: xcxchezz
-- **GitHub**: [https://github.com/xcxchezz](https://github.com/xcxchezz)
-- **Репозиторий**: [https://github.com/xcxchezz/rtree-test](https://github.com/xcxchezz/rtree-test)
-- **Issues**: [https://github.com/xcxchezz/rtree-test/issues](https://github.com/xcxchezz/rtree-test/issues)
-
-## 🙏 Благодарности
-
-- Благодарность за изучение структур данных и алгоритмов пространственного индексирования
-- Вдохновение от оригинальных работ по R-Tree (Guttman, 1984)
-- Сообщество разработчиков за вклад в развитие алгоритмов
-
-## 📚 Ссылки
-
-- [Оригинальная статья о R-Tree](https://dl.acm.org/doi/10.1145/971697.602266) - Antonin Guttman, 1984
-- [Wikipedia: R-tree](https://en.wikipedia.org/wiki/R-tree)
-- [Java Documentation](https://docs.oracle.com/en/java/)
-
----
-
-⭐ Если этот проект был полезен для вас, поставьте звезду на GitHub!
+Программа вставляет несколько объектов недвижимости с координатами и выполняет поиск в различных областях, показывая возможности пространственного поиска.
